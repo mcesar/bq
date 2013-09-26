@@ -1,0 +1,11 @@
+{
+	"name": "bq"
+	, "description": "Banco de Questões"
+	, "version": "0.0.1"
+	, "private": true
+	, "dependencies": {
+		  "express": "*"
+		, "mysql": "*"
+	}
+	, "main": "app"
+}
