@@ -1,19 +1,19 @@
 var db = require('./db');
 
-exports.create = function (req, res) {
-	var banca = req.body;
-	db.query('insert into banca values (?, ?)', 
-		[ banca.Cod_banca, banca.Nome_banca], 
+exports.create = function (req, res, next) {
+	var disciplina = req.body;
+	db.query('insert into disciplina(Nome_disciplina) values (?)', 
+		[ disciplina.Nome_disciplina], 
 		function (err, rows, close) {
 			if (err) { return next(err); }
-			res.send(banca);
+			res.send(disciplina);
 			close();
 		}
 	);
 }
 
 exports.read = function (req, res, next) {
-	db.query('select * from banca', function (err, rows, close) {
+	db.query('select * from disciplina', function (err, rows, close) {
 		if (err) { return next(err); }
 		res.send(rows);
 		close();
@@ -21,19 +21,19 @@ exports.read = function (req, res, next) {
 }
 
 exports.update = function (req, res, next) {
-	var banca = req.body;
-	db.query('update banca set Cod_banca = ?, Nome_banca = ? where Cod_banca = ?', 
-		[ banca.Cod_banca, banca.Nome_banca, req.params.id], 
+	var disciplina = req.body;
+	db.query('update disciplina set Nome_disciplina = ? where Cod_disciplina = ?', 
+		[ disciplina.Nome_disciplina, req.params.id], 
 		function (err, rows, close) {
 			if (err) { return next(err); }
-			res.send(banca);
+			res.send(disciplina);
 			close();
 		}
 	);
 }
 
 exports.delete = function (req, res, next) {
-	db.query('delete from banca where Cod_banca = ?', 
+	db.query('delete from disciplina where Cod_disciplina = ?', 
 		[ req.params.id], 
 		function (err, rows, close) {
 			if (err) { return next(err); }
