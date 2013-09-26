@@ -8,6 +8,7 @@ var area_formacao = require('./dao/area-formacao');
 var area_atuacao = require('./dao/area-atuacao');
 var disciplina = require('./dao/disciplina');
 var professor = require('./dao/professor');
+var cargo = require('./dao/cargo');
 
 var app = express();
 
@@ -53,6 +54,11 @@ app.configure(function () {
 	app.get('/professores', professor.read);
 	app.put('/professores/:id', professor.update);
 	app.delete('/professores/:id', professor.delete);
+
+	app.post('/cargos', cargo.create);
+	app.get('/cargos', cargo.read);
+	app.put('/cargos/:id', cargo.update);
+	app.delete('/cargos/:id', cargo.delete);
 
 });
 
