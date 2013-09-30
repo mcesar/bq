@@ -9,6 +9,8 @@ var area_atuacao = require('./dao/area-atuacao');
 var disciplina = require('./dao/disciplina');
 var professor = require('./dao/professor');
 var cargo = require('./dao/cargo');
+var prova = require('./dao/prova');
+var concurso = require('./dao/concurso');
 
 var app = express();
 
@@ -59,6 +61,16 @@ app.configure(function () {
 	app.get('/cargos', cargo.read);
 	app.put('/cargos/:id', cargo.update);
 	app.delete('/cargos/:id', cargo.delete);
+
+	app.post('/concursos', concurso.create);
+	app.get('/concursos', concurso.read);
+	app.put('/concursos/:id', concurso.update);
+	app.delete('/concursos/:id', concurso.delete);
+
+	app.post('/provas', prova.create);
+	app.get('/provas', prova.read);
+	app.put('/provas/:id', prova.update);
+	app.delete('/provas/:id', prova.delete);
 
 });
 
