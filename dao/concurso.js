@@ -92,8 +92,8 @@ function cargosString (concurso, parameters, concursoId) {
 	var cargos = '';
 	if (typeof concurso.cargos !== 'undefined') {
 		for (var i = 0; i < concurso.cargos.length; i++) {
-			cargos += 'insert into ConcursoCargo values (' + concursoId +  ', ?);';
-			parameters.push(concurso.cargos[i].Cod_cargo);
+			cargos += 'insert into ConcursoCargo values (?, ?);';
+			parameters.push(concursoId, concurso.cargos[i].Cod_cargo);
 		}		
 	}
 	return cargos;
