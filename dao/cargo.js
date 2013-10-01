@@ -2,7 +2,8 @@ var db = require('./db');
 
 exports.create = function (req, res) {
 	var cargo = req.body;
-	db.query('insert into cargo(Nome_cargo, Cod_areaformacao, Cod_areaatuacao) ' +
+	db.query(
+		'insert into cargo(Nome_cargo, Cod_areaformacao, Cod_areaatuacao) ' +
 		'values (?, ?, ?)', 
 		[ cargo.Nome_cargo, cargo.area_formacao.Cod_areaform,
 			cargo.area_atuacao.Cod_areaatuacao ], 

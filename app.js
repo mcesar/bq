@@ -11,6 +11,7 @@ var professor = require('./dao/professor');
 var cargo = require('./dao/cargo');
 var prova = require('./dao/prova');
 var concurso = require('./dao/concurso');
+var questao = require('./dao/questao');
 
 var app = express();
 
@@ -67,10 +68,17 @@ app.configure(function () {
 	app.put('/concursos/:id', concurso.update);
 	app.delete('/concursos/:id', concurso.delete);
 
-	app.post('/provas', prova.create);
-	app.get('/provas', prova.read);
-	app.put('/provas/:id', prova.update);
-	app.delete('/provas/:id', prova.delete);
+	app.post('/concursos/:concursoId/provas', prova.create);
+	app.get('/concursos/:concursoId/provas', prova.read);
+	app.put('/concursos/:concursoId/provas/:provaId', prova.update);
+	app.delete('/concursos/:concursoId/provas/:provaId', prova.delete);
+
+	app.post('/concursos/:concursoId/provas/:provaId/questoes', questao.create);
+	app.get('/concursos/:concursoId/provas/:provaId/questoes', questao.read);
+	app.put('/concursos/:concursoId/provas/:provaId/questoes/:questaoId', 
+		questao.update);
+	app.delete('/concursos/:concursoId/provas/:provaId/questoes/:questaoId', 
+		questao.delete);
 
 });
 

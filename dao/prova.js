@@ -21,7 +21,8 @@ exports.read = function (req, res, next) {
 				'concurso c on p.Cod_concurso = c.Cod_concurso left outer join ' +
 				'CargoProva cp on p.Cod_prova = cp.Cod_prova and ' +
 					'p.Cod_concurso = cp.Cod_concurso left outer join ' + 
-				'cargo c_ on cp.Cod_cargo = c_.Cod_cargo',
+				'cargo c_ on cp.Cod_cargo = c_.Cod_cargo ' +
+			'where p.Cod_concurso = ?', [ req.params.concursoId ],
 		function (err, rows, close) {
 			if (err) { return next(err); }
 			var objects = [], obj, mapa = {};
@@ -55,7 +56,7 @@ exports.read = function (req, res, next) {
 
 exports.update = function (req, res, next) {
 	var prova = req.body;
-	var arr = req.params.id.split('+');
+	var arr = [ req.params.provaId, req.params.concursoId ];
 	var parameters = [ arr[0], arr[1], 
 					prova.Cod_prova, prova.concurso.Cod_concurso, arr[0], arr[1]];
 	var cargos = cargosString(prova, parameters, prova.Cod_prova, 
@@ -73,7 +74,7 @@ exports.update = function (req, res, next) {
 }
 
 exports.delete = function (req, res, next) {
-	var arr = req.params.id.split('+');
+	var arr = [ req.params.provaId, req.params.concursoId ];
 	db.query('delete from CargoProva where Cod_prova = ? and Cod_concurso = ?;' +
 			'delete from prova where Cod_prova = ? and Cod_concurso = ?', 
 		[ arr[0], arr[1], arr[0], arr[1] ], 
