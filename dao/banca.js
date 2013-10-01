@@ -1,6 +1,6 @@
 var db = require('./db');
 
-exports.create = function (req, res) {
+exports.create = function (req, res, next) {
 	var banca = req.body;
 	db.query('insert into banca values (?, ?)', 
 		[ banca.Cod_banca, banca.Nome_banca], 

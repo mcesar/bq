@@ -2,16 +2,10 @@ var db = require('./db');
 
 exports.create = function (req, res, next) {
 	var concurso = req.body;
-	var cargos = '';
 	var parameters =
 		[ concurso.Data_abertura, concurso.banca.Cod_banca, 
 			concurso.orgao.Cod_orgao ];
-	if (typeof concurso.cargos !== 'undefined') {
-		for (var i = 0; i < concurso.cargos.length; i++) {
-			cargos += 'insert into ConcursoCargo values (last_insert_id(), ?);';
-			parameters.push(concurso.cargos[i].Cod_cargo);
-		}		
-	}
+	var cargos = cargosString(concurso, parameters, last_insert_id());
 	db.query('insert into concurso(Data_abertura, Cod_banca, Cod_orgao) ' +
 			'values (?, ?, ?);' + cargos, parameters, 
 		function (err, rows, close) {
@@ -67,11 +61,13 @@ exports.read = function (req, res, next) {
 
 exports.update = function (req, res, next) {
 	var concurso = req.body;
-	db.query('update concurso ' +
+	var parameters = [ req.params.id, concurso.Data_abertura, 
+			concurso.banca.Cod_banca, concurso.orgao.Cod_orgao, req.params.id ];
+	var cargos = cargosString(concurso, parameters, req.params.id);
+	db.query('delete from ConcursoCargo where Cod_concurso = ?; ' +
+			'update concurso ' +
 			'set Data_abertura = ?, Cod_banca = ?, Cod_orgao = ? ' +
-			'where Cod_concurso = ?', 
-		[ concurso.Data_abertura, concurso.banca.Cod_banca, 
-				concurso.orgao.Cod_orgao, req.params.id ], 
+			'where Cod_concurso = ?;' + cargos, parameters, 
 		function (err, rows, close) {
 			if (err) { return next(err); }
 			res.send(concurso);
@@ -90,4 +86,15 @@ exports.delete = function (req, res, next) {
 			close();
 		}
 	);
+}
+
+function cargosString (concurso, parameters, concursoId) {
+	var cargos = '';
+	if (typeof concurso.cargos !== 'undefined') {
+		for (var i = 0; i < concurso.cargos.length; i++) {
+			cargos += 'insert into ConcursoCargo values (' + concursoId +  ', ?);';
+			parameters.push(concurso.cargos[i].Cod_cargo);
+		}		
+	}
+	return cargos;
 }
