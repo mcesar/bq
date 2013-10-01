@@ -12,6 +12,7 @@ var cargo = require('./dao/cargo');
 var prova = require('./dao/prova');
 var concurso = require('./dao/concurso');
 var questao = require('./dao/questao');
+var questao_professor = require('./dao/questao-professor');
 
 var app = express();
 
@@ -79,6 +80,15 @@ app.configure(function () {
 		questao.update);
 	app.delete('/concursos/:concursoId/provas/:provaId/questoes/:questaoId', 
 		questao.delete);
+
+	app.post('/concursos/:concursoId/provas/:provaId/' +
+		'questoes/:questaoId/professores', questao_professor.create);
+	app.get('/concursos/:concursoId/provas/:provaId/' +
+		'questoes/:questaoId/professores', questao_professor.read);
+	app.put('/concursos/:concursoId/provas/:provaId/' +
+		'questoes/:questaoId/professores/:professorId', questao_professor.update);
+	app.delete('/concursos/:concursoId/provas/:provaId/' +
+		'questoes/:questaoId/professores/:professorId', questao_professor.delete);
 
 });
 
