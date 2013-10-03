@@ -29,6 +29,12 @@ app.configure(function () {
 		res.send(500, 'Internal error: ' + err.message);
 	});
 
+	app.all('/*', function(req, res, next) {
+	  res.header("Access-Control-Allow-Origin", "*");
+	  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+	  next();
+	});
+
 	app.post('/bancas', banca.create);
 	app.get('/bancas', banca.read);
 	app.put('/bancas/:id', banca.update);

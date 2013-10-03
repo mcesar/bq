@@ -1,0 +1,20 @@
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Órgão</th>
+			<th>Data de abertura</th>
+			<th>Banca</th>
+			<th>Cargos</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="concurso in concursos">
+			<td>{{concurso.Cod_concurso}}</td>
+			<td>{{concurso.orgao.Nome_orgao}}</td>
+			<td>{{convertToUTC(concurso.Data_abertura) | date:'dd/MM/yyyy'}}</td>
+			<td>{{concurso.banca.Nome_banca}}</td>
+			<td>{{concurso.cargos}}</td>
+		</tr>
+	</tbody>
+</table>
