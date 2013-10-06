@@ -5,8 +5,11 @@ angular.module('bq', [ 'ngResource' ]).
     });
   }).
   factory('Orgaos', function ($resource) {
-    return $resource('http://localhost\\:8080/orgaos', {}, {
-      query: { method: 'GET', params: {}, isArray: true }
+    return $resource('http://localhost\\:8080/orgaos/:id', {}, {
+      create: { method: 'POST', params: {}, isArray: true },
+      read: { method: 'GET', params: {}, isArray: true },
+      update: { method: 'PUT', params: {}, isArray: true },
+      "delete": { method: 'DELETE', params: {}, isArray: true }
     });
   }).
   factory('Cargos', function ($resource) {
@@ -47,6 +50,10 @@ angular.module('bq', [ 'ngResource' ]).
       	{ controller: ConcursosCtrl, templateUrl: 'concursos.html' }).
       when('/orgaos', 
         { controller: OrgaosCtrl, templateUrl: 'orgaos.html' }).
+      when('/orgaos/new', 
+        { controller: OrgaosCtrl, templateUrl: 'orgao-edit.html' }).
+      when('/orgaos/:id/edit', 
+        { controller: OrgaosCtrl, templateUrl: 'orgao-edit.html' }).
       when('/cargos', 
         { controller: CargosCtrl, templateUrl: 'cargos.html' }).
       when('/bancas', 
@@ -59,9 +66,6 @@ angular.module('bq', [ 'ngResource' ]).
         { controller: AreasAtuacaoCtrl, templateUrl: 'areas-atuacao.html' }).
       when('/areas-formacao', 
         { controller: AreasFormacaoCtrl, templateUrl: 'areas-formacao.html' }).
-      //when('/edit/:projectId', 
-      //	{controller:EditCtrl, templateUrl:'detail.html'}).
-      //when('/new', {controller:CreateCtrl, templateUrl:'detail.html'}).
       otherwise({ redirectTo:'/' });
   });
 
@@ -89,8 +93,45 @@ function ConcursosCtrl ($scope, Concursos) {
   $scope.convertToUTC = convertToUTC;
 }
 
-function OrgaosCtrl ($scope, Orgaos) {
-  $scope.orgaos = Orgaos.query();
+function OrgaosCtrl ($scope, $location, $routeParams, Orgaos) {
+  $scope.salvar = function () {
+    var method;
+    var params = {};
+    if (typeof $routeParams.id === 'undefined') {
+      method = 'create';
+    } else {
+      method = 'update';
+      params.id = $routeParams.id;
+    }
+    Orgaos[method](params, 
+      { Cod_orgao: $scope.codigo, Nome_orgao: $scope.nome },
+      function () {
+        $location.path('/orgaos');
+      },
+      function (err) {
+        $scope.erro = err.data.split('\n')[0];
+      }
+    );
+  }
+  if (typeof $routeParams.id === 'undefined') {
+    $scope.orgaos = Orgaos.read();
+  } else {
+    Orgaos.read({ id: $routeParams.id }, function (orgaos) {
+      $scope.codigo_original = $routeParams.id;
+      $scope.codigo = orgaos[0].Cod_orgao;
+      $scope.nome = orgaos[0].Nome_orgao;
+      $scope.excluir = function () {
+        Orgaos.delete({ id: $scope.codigo }, 
+          function () {
+            $location.path('/orgaos');
+          },
+          function (err) {
+            $scope.erro = err.data.split('\n')[0];
+          }          
+        );
+      }
+    });  
+  }
 }
 
 function CargosCtrl ($scope, Cargos) {

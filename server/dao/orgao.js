@@ -13,7 +13,13 @@ exports.create = function (req, res, next) {
 }
 
 exports.read = function (req, res, next) {
-	db.query('select * from orgao', function (err, rows, close) {
+	var sql = 'select * from orgao';
+	var params = [];
+	if (typeof req.params.id !== 'undefined') { 
+		sql += ' where Cod_orgao = ?';
+		params.push(req.params.id);
+	}
+	db.query(sql, params, function (err, rows, close) {
 		if (err) { return next(err); }
 		res.send(rows);
 		close();

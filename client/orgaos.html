@@ -3,12 +3,19 @@
 		<tr>
 			<th>Código</th>
 			<th>Nome</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="orgao in orgaos">
 			<td>{{orgao.Cod_orgao}}</td>
 			<td>{{orgao.Nome_orgao}}</td>
+			<td>
+				<a href="#/orgaos/{{orgao.Cod_orgao}}/edit">
+					<span class="glyphicon glyphicon-edit"></span>
+				</a>
+			</td>
 		</tr>
 	</tbody>
 </table>
+<a href="#/orgaos/new" class="btn btn-default">Novo órgão</a>
