@@ -6,6 +6,7 @@
 			<th>Data de abertura</th>
 			<th>Banca</th>
 			<th>Cargos</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -15,6 +16,12 @@
 			<td>{{convertToUTC(concurso.Data_abertura) | date:'dd/MM/yyyy'}}</td>
 			<td>{{concurso.banca.Nome_banca}}</td>
 			<td>{{concurso.cargos}}</td>
+			<td>
+				<a href="#/concursos/{{concurso.Cod_concurso}}/edit">
+					<span class="glyphicon glyphicon-edit"></span>
+				</a>
+			</td>
 		</tr>
 	</tbody>
 </table>
+<a href="#/concursos/new" class="btn btn-default">Novo concurso</a>

@@ -3,12 +3,19 @@
 		<tr>
 			<th>#</th>
 			<th>Nome</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="professor in professores">
 			<td>{{professor.Cod_professor}}</td>
 			<td>{{professor.Nome_professor}}</td>
+			<td>
+				<a href="#/professores/{{professor.Cod_professor}}/edit">
+					<span class="glyphicon glyphicon-edit"></span>
+				</a>
+			</td>
 		</tr>
 	</tbody>
 </table>
+<a href="#/professores/new" class="btn btn-default">Novo professor</a>

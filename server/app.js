@@ -39,6 +39,7 @@ app.configure(function () {
 
 	app.post('/bancas', banca.create);
 	app.get('/bancas', banca.read);
+	app.get('/bancas/:id', banca.read);
 	app.put('/bancas/:id', banca.update);
 	app.delete('/bancas/:id', banca.delete);
 
@@ -50,31 +51,37 @@ app.configure(function () {
 
 	app.post('/areas-formacao', area_formacao.create);
 	app.get('/areas-formacao', area_formacao.read);
+	app.get('/areas-formacao/:id', area_formacao.read);
 	app.put('/areas-formacao/:id', area_formacao.update);
 	app.delete('/areas-formacao/:id', area_formacao.delete);
 
 	app.post('/areas-atuacao', area_atuacao.create);
 	app.get('/areas-atuacao', area_atuacao.read);
+	app.get('/areas-atuacao/:id', area_atuacao.read);
 	app.put('/areas-atuacao/:id', area_atuacao.update);
 	app.delete('/areas-atuacao/:id', area_atuacao.delete);
 
 	app.post('/disciplinas', disciplina.create);
 	app.get('/disciplinas', disciplina.read);
+	app.get('/disciplinas/:id', disciplina.read);
 	app.put('/disciplinas/:id', disciplina.update);
 	app.delete('/disciplinas/:id', disciplina.delete);
 
 	app.post('/professores', professor.create);
 	app.get('/professores', professor.read);
+	app.get('/professores/:id', professor.read);
 	app.put('/professores/:id', professor.update);
 	app.delete('/professores/:id', professor.delete);
 
 	app.post('/cargos', cargo.create);
 	app.get('/cargos', cargo.read);
+	app.get('/cargos/:id', cargo.read);
 	app.put('/cargos/:id', cargo.update);
 	app.delete('/cargos/:id', cargo.delete);
 
 	app.post('/concursos', concurso.create);
 	app.get('/concursos', concurso.read);
+	app.get('/concursos/:id', concurso.read);
 	app.put('/concursos/:id', concurso.update);
 	app.delete('/concursos/:id', concurso.delete);
 

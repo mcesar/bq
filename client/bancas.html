@@ -3,12 +3,19 @@
 		<tr>
 			<th>Código</th>
 			<th>Nome</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="banca in bancas">
 			<td>{{banca.Cod_banca}}</td>
 			<td>{{banca.Nome_banca}}</td>
+			<td>
+				<a href="#/bancas/{{banca.Cod_banca}}/edit">
+					<span class="glyphicon glyphicon-edit"></span>
+				</a>
+			</td>
 		</tr>
 	</tbody>
 </table>
+<a href="#/bancas/new" class="btn btn-default">Nova banca</a>

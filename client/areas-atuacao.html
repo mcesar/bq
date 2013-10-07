@@ -3,12 +3,19 @@
 		<tr>
 			<th>#</th>
 			<th>Nome</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="area_atuacao in areas_atuacao">
 			<td>{{area_atuacao.Cod_areaatuacao}}</td>
 			<td>{{area_atuacao.Nome_areaatuacao}}</td>
+			<td>
+				<a href="#/areas-atuacao/{{area_atuacao.Cod_areaatuacao}}/edit">
+					<span class="glyphicon glyphicon-edit"></span>
+				</a>
+			</td>
 		</tr>
 	</tbody>
 </table>
+<a href="#/areas-atuacao/new" class="btn btn-default">Nova área de atuação</a>

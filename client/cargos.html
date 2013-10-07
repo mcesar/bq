@@ -3,12 +3,19 @@
 		<tr>
 			<th>#</th>
 			<th>Nome</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="cargo in cargos">
 			<td>{{cargo.Cod_cargo}}</td>
 			<td>{{cargo.Nome_cargo}}</td>
+			<td>
+				<a href="#/cargos/{{cargo.Cod_cargo}}/edit">
+					<span class="glyphicon glyphicon-edit"></span>
+				</a>
+			</td>
 		</tr>
 	</tbody>
 </table>
+<a href="#/cargos/new" class="btn btn-default">Novo cargo</a>

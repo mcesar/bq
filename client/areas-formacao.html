@@ -3,12 +3,19 @@
 		<tr>
 			<th>#</th>
 			<th>Nome</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="area_formacao in areas_formacao">
 			<td>{{area_formacao.Cod_areaform}}</td>
 			<td>{{area_formacao.Nome_areaform}}</td>
+			<td>
+				<a href="#/areas-formacao/{{area_formacao.Cod_areaform}}/edit">
+					<span class="glyphicon glyphicon-edit"></span>
+				</a>
+			</td>
 		</tr>
 	</tbody>
 </table>
+<a href="#/areas-formacao/new" class="btn btn-default">Nova área de formação</a>

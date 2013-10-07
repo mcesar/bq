@@ -3,12 +3,19 @@
 		<tr>
 			<th>#</th>
 			<th>Nome</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr ng-repeat="disciplina in disciplinas">
 			<td>{{disciplina.Cod_disciplina}}</td>
 			<td>{{disciplina.Nome_disciplina}}</td>
+			<td>
+				<a href="#/disciplinas/{{disciplina.Cod_disciplina}}/edit">
+					<span class="glyphicon glyphicon-edit"></span>
+				</a>
+			</td>
 		</tr>
 	</tbody>
 </table>
+<a href="#/disciplinas/new" class="btn btn-default">Nova disciplina</a>
