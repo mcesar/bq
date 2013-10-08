@@ -1,20 +1,20 @@
 <form class="form-horizontal" role="form">
 	<div class="form-group">
-		<label for="codigo" class="col-md-2 control-label">Código</label>
+		<label for="codigo" class="col-md-3 control-label">Código</label>
 		<div class="col-md-2">
 			<input type="text" class="form-control" id="codigo" 
 				ng-model="entidade.Cod_cargo" disabled>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="nome" class="col-md-2 control-label">Nome</label>
+		<label for="nome" class="col-md-3 control-label">Nome</label>
 		<div class="col-md-6">
 			<input type="text" class="form-control" id="nome" 
 				ng-model="entidade.Nome_cargo">
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="area-formacao" class="col-md-2 control-label">
+		<label for="area-formacao" class="col-md-3 control-label">
 			Área de formação
 		</label>
 		<div class="col-md-6">
@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="area-atuacao" class="col-md-2 control-label">
+		<label for="area-atuacao" class="col-md-3 control-label">
 			Área de atuação
 		</label>
 		<div class="col-md-6">
@@ -36,7 +36,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-	    <div class="col-md-offset-2 col-md-10">
+	    <div class="col-md-offset-3 col-md-9">
 	    	<button type="button" class="btn btn-primary" ng-click="salvar()">
 	    		Salvar
 	    	</button>
@@ -46,5 +46,5 @@
 	    	</button>
 	    </div>
 	</div>
-	<h4><span class="label label-danger col-md-offset-2">{{erro}}</span></h4>
+	<h4><span class="label label-danger col-md-offset-3">{{erro}}</span></h4>
 </form>
