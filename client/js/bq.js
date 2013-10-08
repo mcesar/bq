@@ -1,4 +1,4 @@
-angular.module('bq', [ 'ngResource' ]).
+angular.module('bq', [ 'ngResource', 'ngRoute' ]).
   factory('Concursos', function (BqResource) {
     return BqResource('/concursos/:id');
   }).
@@ -143,6 +143,29 @@ angular.module('bq', [ 'ngResource' ]).
       }
       return r;
     }
+  }).
+  directive('dateFormat', function ($filter) {
+    return {
+      require: 'ngModel',
+      link: function (scope, elm, attrs, ctrl) {
+        if (!ctrl) { return; }
+
+        // view -> model
+        elm.on('blur keyup change', function () {
+          scope.$apply(function () {
+            var arr = elm[0].value.split('/');
+            var date = convertToUTC(new Date(arr[2], arr[1] - 1, arr[0]));
+            ctrl.$setViewValue(date);
+          });
+        });
+
+        // model -> view
+        ctrl.$render = function () {
+          elm[0].value = 
+            $filter('date')(convertToUTC(ctrl.$viewValue), 'dd/MM/yyyy');
+        };
+      }
+    };
   });
 
 function convertToUTC (dt) {
@@ -167,9 +190,17 @@ function BqCtrl ($scope, $location) {
 function QuestoesCtrl ($scope) {
 }
 
-function ConcursosCtrl ($scope, $routeParams, Concursos) {
+function ConcursosCtrl ($scope, $routeParams, Concursos, Bancas, Orgaos, Cargos) {
   Concursos.bind($routeParams.id, $scope);
   $scope.convertToUTC = convertToUTC;
+  $scope.bancas = Bancas.query();
+  $scope.orgaos = Orgaos.query();
+  $scope.cargos = Cargos.query();
+  if (typeof $routeParams.id === 'undefined') {
+    $scope.entidade.banca = {};
+    $scope.entidade.orgao = {};
+    $scope.entidade.cargos = [];
+  }
 }
 
 function OrgaosCtrl ($scope, $routeParams, Orgaos) {

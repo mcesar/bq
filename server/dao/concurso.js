@@ -3,9 +3,9 @@ var db = require('./db');
 exports.create = function (req, res, next) {
 	var concurso = req.body;
 	var parameters =
-		[ concurso.Data_abertura, concurso.banca.Cod_banca, 
+		[ concurso.Data_abertura.split('T')[0], concurso.banca.Cod_banca, 
 			concurso.orgao.Cod_orgao ];
-	var cargos = cargosString(concurso, parameters, last_insert_id());
+	var cargos = cargosString(concurso, parameters, 'last_insert_id()');
 	db.query('insert into concurso(Data_abertura, Cod_banca, Cod_orgao) ' +
 			'values (?, ?, ?);' + cargos, parameters, 
 		function (err, rows, close) {
@@ -25,7 +25,7 @@ exports.read = function (req, res, next) {
 					'left outer join cargo c_ on cc.Cod_cargo = c_.Cod_cargo';
 	var params = [];
 	if (typeof req.params.id !== 'undefined') { 
-		sql += ' where Cod_concurso = ?';
+		sql += ' where c.Cod_concurso = ?';
 		params.push(req.params.id);
 	}
 	db.query(sql, params, function (err, rows, close) {
@@ -65,7 +65,7 @@ exports.read = function (req, res, next) {
 
 exports.update = function (req, res, next) {
 	var concurso = req.body;
-	var parameters = [ req.params.id, concurso.Data_abertura, 
+	var parameters = [ req.params.id, concurso.Data_abertura.split('T')[0], 
 			concurso.banca.Cod_banca, concurso.orgao.Cod_orgao, req.params.id ];
 	var cargos = cargosString(concurso, parameters, req.params.id);
 	db.query('delete from ConcursoCargo where Cod_concurso = ?; ' +
@@ -94,10 +94,18 @@ exports.delete = function (req, res, next) {
 
 function cargosString (concurso, parameters, concursoId) {
 	var cargos = '';
+	var placeholder = '?';
+	if (concursoId === 'last_insert_id()') {
+		placeholder = concursoId;
+	}
 	if (typeof concurso.cargos !== 'undefined') {
 		for (var i = 0; i < concurso.cargos.length; i++) {
-			cargos += 'insert into ConcursoCargo values (?, ?);';
-			parameters.push(concursoId, concurso.cargos[i].Cod_cargo);
+			cargos += 'insert into ConcursoCargo values (' + placeholder + ', ?);';
+			if (placeholder === '?') {
+				parameters.push(concursoId, concurso.cargos[i].Cod_cargo);
+			} else {
+				parameters.push(concurso.cargos[i].Cod_cargo);
+			}
 		}		
 	}
 	return cargos;
