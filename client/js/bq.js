@@ -23,6 +23,10 @@ angular.module('bq', [ 'ngResource', 'ngRoute' ]).
   factory('AreasFormacao', function (BqResource) {
     return BqResource('/areas-formacao/:id');
   }).
+  factory('Provas', function (BqResource, $routeParams) {
+    return BqResource('/concursos/:concursoId/provas/:id',
+      { concursoId: $routeParams.concursoId });
+  }).
   config(function($routeProvider) {
     $routeProvider.
 
@@ -35,6 +39,10 @@ angular.module('bq', [ 'ngResource', 'ngRoute' ]).
         { controller: ConcursosCtrl, templateUrl: 'concurso-edit.html' }).
       when('/concursos/:id/edit', 
         { controller: ConcursosCtrl, templateUrl: 'concurso-edit.html' }).
+      when('/concursos/:concursoId/provas/new', 
+        { controller: ProvaCtrl, templateUrl: 'prova-edit.html' }).
+      when('/concursos/:concursoId/provas/:id/edit', 
+        { controller: ProvaCtrl, templateUrl: 'prova-edit.html' }).
 
       when('/orgaos', 
         { controller: OrgaosCtrl, templateUrl: 'orgaos.html' }).
@@ -95,9 +103,14 @@ angular.module('bq', [ 'ngResource', 'ngRoute' ]).
     return 'http://localhost\\:8080';
   }).
   factory('BqResource', function ($resource, $location) {
-    return function (path) {
+    return function (path, paramDefaults) {
       var url = 'http://localhost\\:8080';
-      var r = $resource(url + path, {}, { update: { method: 'PUT' } });
+      if (typeof paramDefaults === 'undefined') {
+        paramDefaults = {};
+      }
+      var r = $resource(url + path, paramDefaults, 
+        { update: { method: 'PUT' } }
+      );
       var root = path.split('/')[1];
       r.saveOrUpdate = function (id, $scope) {
         var method;
@@ -190,7 +203,7 @@ function BqCtrl ($scope, $location) {
 function QuestoesCtrl ($scope) {
 }
 
-function ConcursosCtrl ($scope, $routeParams, Concursos, Bancas, Orgaos, Cargos) {
+function ConcursosCtrl ($scope, $routeParams, Concursos, Bancas, Orgaos, Cargos, Provas) {
   Concursos.bind($routeParams.id, $scope);
   $scope.convertToUTC = convertToUTC;
   $scope.bancas = Bancas.query();
@@ -199,6 +212,18 @@ function ConcursosCtrl ($scope, $routeParams, Concursos, Bancas, Orgaos, Cargos)
   if (typeof $routeParams.id === 'undefined') {
     $scope.entidade.banca = {};
     $scope.entidade.orgao = {};
+    $scope.entidade.cargos = [];
+  } else {
+    $scope.provas = Provas.query({ concursoId: $routeParams.id });
+  }
+  $scope.aba_prova_selecionada = false;
+}
+
+function ProvaCtrl ($scope, $routeParams, Cargos, Provas) {
+  Provas.bind($routeParams.id, $scope);
+  $scope.cargos = Cargos.query();
+  if (typeof $routeParams.id === 'undefined') {
+    $scope.entidade.concurso = { Cod_concurso: $routeParams.concursoId };
     $scope.entidade.cargos = [];
   }
 }

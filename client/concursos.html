@@ -5,6 +5,7 @@
 			<th>Órgão</th>
 			<th>Data de abertura</th>
 			<th>Banca</th>
+			<th>Cargos</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -14,6 +15,12 @@
 			<td>{{concurso.orgao.Nome_orgao}}</td>
 			<td>{{convertToUTC(concurso.Data_abertura) | date:'dd/MM/yyyy'}}</td>
 			<td>{{concurso.banca.Nome_banca}}</td>
+			<td>
+				<span class="label label-default" 
+					ng-repeat="cargo in concurso.cargos">
+					{{cargo.Nome_cargo}}
+				</span>
+			</td>
 			<td>
 				<a href="#/concursos/{{concurso.Cod_concurso}}/edit">
 					<span class="glyphicon glyphicon-edit"></span>

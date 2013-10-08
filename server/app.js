@@ -87,6 +87,7 @@ app.configure(function () {
 
 	app.post('/concursos/:concursoId/provas', prova.create);
 	app.get('/concursos/:concursoId/provas', prova.read);
+	app.get('/concursos/:concursoId/provas/:provaId', prova.read);
 	app.put('/concursos/:concursoId/provas/:provaId', prova.update);
 	app.delete('/concursos/:concursoId/provas/:provaId', prova.delete);
 

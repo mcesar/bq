@@ -1,63 +1,112 @@
+<ul class="nav nav-tabs" ng-show="original_id">
+  <li class="{{!aba_prova_selecionada ? 'active': ''}}">
+  	<a href="" ng-click="aba_prova_selecionada = false">Concurso</a>
+  </li>
+  <li class="{{aba_prova_selecionada ? 'active': ''}}">
+  	<a href="" ng-click="aba_prova_selecionada = true">Provas</a>
+  </li>
+</ul>
+
+<div class="row">
+	<div class="col-md-9">&nbsp;</div>
+</div>
+
 <form class="form-horizontal" role="form">
-	<div class="form-group">
-		<label for="codigo" class="col-md-3 control-label">Código</label>
-		<div class="col-md-2">
-			<input type="text" class="form-control" id="codigo" 
-				ng-model="entidade.Cod_concurso" disabled>
+
+	<div ng-show="!aba_prova_selecionada">
+
+		<div class="form-group">
+			<label for="codigo" class="col-md-3 control-label">Código</label>
+			<div class="col-md-2">
+				<input type="text" class="form-control" id="codigo" 
+					ng-model="entidade.Cod_concurso" disabled>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label for="data-abertura" class="col-md-3 control-label">
-			Data de abertura
-		</label>
-		<div class="col-md-6">
-			<input type="text" class="form-control" id="data-abertura" 
-				ng-model="entidade.Data_abertura" date-format="dd/MM/yyyy">
+		<div class="form-group">
+			<label for="data-abertura" class="col-md-3 control-label">
+				Data de abertura
+			</label>
+			<div class="col-md-6">
+				<input type="text" class="form-control" id="data-abertura" 
+					ng-model="entidade.Data_abertura" date-format="dd/MM/yyyy">
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label for="banca" class="col-md-3 control-label">
-			Banca
-		</label>
-		<div class="col-md-6">
-			<select class="form-control" id="banca" 
-				ng-model="entidade.banca.Cod_banca"
-				ng-options="b.Cod_banca as b.Nome_banca for b in bancas">
-			</select>
+		<div class="form-group">
+			<label for="banca" class="col-md-3 control-label">
+				Banca
+			</label>
+			<div class="col-md-6">
+				<select class="form-control" id="banca" 
+					ng-model="entidade.banca.Cod_banca"
+					ng-options="b.Cod_banca as b.Nome_banca for b in bancas">
+				</select>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label for="orgao" class="col-md-3 control-label">
-			Órgão
-		</label>
-		<div class="col-md-6">
-			<select class="form-control" id="orgao" 
-				ng-model="entidade.orgao.Cod_orgao"
-				ng-options="o.Cod_orgao as o.Nome_orgao for o in orgaos">
-			</select>
+		<div class="form-group">
+			<label for="orgao" class="col-md-3 control-label">
+				Órgão
+			</label>
+			<div class="col-md-6">
+				<select class="form-control" id="orgao" 
+					ng-model="entidade.orgao.Cod_orgao"
+					ng-options="o.Cod_orgao as o.Nome_orgao for o in orgaos">
+				</select>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label for="cargos" class="col-md-3 control-label">
-			Cargos
-		</label>
-		<div class="col-md-6">
-			<select multiple class="form-control" id="cargos" 
-				ng-model="entidade.cargos"
-				ng-options="c.Nome_cargo for c in cargos track by c.Cod_cargo">
-			</select>
+		<div class="form-group">
+			<label for="cargos" class="col-md-3 control-label">
+				Cargos
+			</label>
+			<div class="col-md-6">
+				<select multiple class="form-control" id="cargos" 
+					ng-model="entidade.cargos"
+					ng-options="c.Nome_cargo for c in cargos track by c.Cod_cargo">
+				</select>
+			</div>
 		</div>
+		<div class="form-group">
+		    <div class="col-md-offset-3 col-md-9">
+		    	<button type="button" class="btn btn-primary" ng-click="salvar()">
+		    		Salvar
+		    	</button>
+		    	<button type="button" class="btn btn-danger" 
+		    			ng-click="excluir()" ng-show="original_id">
+		    		Excluir
+		    	</button>
+		    </div>
+		</div>
+
 	</div>
-	<div class="form-group">
-	    <div class="col-md-offset-3 col-md-9">
-	    	<button type="button" class="btn btn-primary" ng-click="salvar()">
-	    		Salvar
-	    	</button>
-	    	<button type="button" class="btn btn-danger" 
-	    			ng-click="excluir()" ng-show="original_id">
-	    		Excluir
-	    	</button>
-	    </div>
+
+	<div ng-show="aba_prova_selecionada">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Cargos</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="prova in provas">
+					<td>{{prova.Cod_prova}}</td>
+					<td>
+						<span class="label label-default" 
+							ng-repeat="cargo in prova.cargos">
+							{{cargo.Nome_cargo}}
+						</span>
+					</td>
+					<td>
+						<a href="#/concursos/{{entidade.Cod_concurso}}/provas/{{prova.Cod_prova}}/edit">
+							<span class="glyphicon glyphicon-edit"></span>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<a href="#/concursos/{{entidade.Cod_concurso}}/provas/new" 
+			class="btn btn-default">Nova prova</a>
 	</div>
+
 	<h4><span class="label label-danger col-md-offset-3">{{erro}}</span></h4>
 </form>
