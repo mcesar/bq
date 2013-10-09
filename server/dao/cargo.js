@@ -1,6 +1,6 @@
 var db = require('./db');
 
-exports.create = function (req, res) {
+exports.create = function (req, res, next) {
 	var cargo = req.body;
 	db.query(
 		'insert into cargo(Nome_cargo, Cod_areaformacao, Cod_areaatuacao) ' +

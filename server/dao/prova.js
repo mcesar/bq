@@ -25,7 +25,7 @@ exports.read = function (req, res, next) {
 			'where p.Cod_concurso = ?';
 	var params = [ req.params.concursoId ];
 	if (typeof req.params.provaId !== 'undefined') {
-		sql += ' and p.Cod_concurso = ?';
+		sql += ' and p.Cod_prova = ?';
 		params.push(req.params.provaId);
 	}
 	db.query(sql, params, function (err, rows, close) {
@@ -43,7 +43,7 @@ exports.read = function (req, res, next) {
 					cargos: []
 				};
 				objects.push(obj);
-				mapa[obj.Cod_prova + '|' + obj.Cod_concurso] = obj;
+				mapa[obj.Cod_prova + '|' + obj.concurso.Cod_concurso] = obj;
 			}
 			if (typeof rows[i].Cod_cargo !== 'undefined' 
 						&& rows[i].Cod_cargo != null) {
