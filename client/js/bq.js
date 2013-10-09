@@ -176,6 +176,7 @@ angular.module('bq', [ 'ngResource', 'ngRoute' ]).
 
         // model -> view
         ctrl.$render = function () {
+          if (!ctrl.$viewValue) return;
           elm[0].value = 
             $filter('date')(convertToUTC(ctrl.$viewValue), 'dd/MM/yyyy');
         };
